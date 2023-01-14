@@ -9,7 +9,7 @@
 
 * MacOS 64 位 [https://github.com/ba0gu0/AllLive/releases/download/1.0.0/alllive_mac_1.0.0_x64.dmg](https://github.com/ba0gu0/AllLive/releases/download/1.0.0/alllive_mac_1.0.0_x64.dmg)
 
-* MacOS arm64 位 [https://github.com/ba0gu0/AllLive/releases/download/1.0.0/alllive_mac_1.0.0_x64.dmg](https://github.com/ba0gu0/AllLive/releases/download/1.0.0/alllive_mac_1.0.0_arm64.dmg)
+* MacOS arm64 位 [https://github.com/ba0gu0/AllLive/releases/download/1.0.0/alllive_mac_1.0.0_arm64.dmg](https://github.com/ba0gu0/AllLive/releases/download/1.0.0/alllive_mac_1.0.0_arm64.dmg)
 
 * Windows 64 位安装 [https://github.com/ba0gu0/AllLive/releases/download/1.0.0/alllive_win_1.0.0_x64.msi](https://github.com/ba0gu0/AllLive/releases/download/1.0.0/alllive_win_1.0.0_x64.msi)
 * Windows 64 位压缩 [https://github.com/ba0gu0/AllLive/releases/download/1.0.0/alllive_win_1.0.0_x64.zip](https://github.com/ba0gu0/AllLive/releases/download/1.0.0/alllive_win_1.0.0_x64.zip)
@@ -46,6 +46,8 @@
 > 播放页面
 
 ![image-20230114140410597](./images/202301141404625.png)
+
+
 
 ### 免责声明
 
