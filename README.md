@@ -7,9 +7,9 @@
 
 ### 下载地址
 
-* MacOS 64 位 [https://github.com/ba0gu0/AllLive/releases/download/1.0.0/alllive_mac_1.0.0_x64.dmg](https://github.com/ba0gu0/AllLive/releases/download/1.0.0/alllive_mac_1.0.0_x64.dmg)
+* MacOS 64 位 [https://github.com/ba0gu0/AllLive/releases/download/1.0.0/alllive_mac_1.0.0_x64.zip](https://github.com/ba0gu0/AllLive/releases/download/1.0.0/alllive_mac_1.0.0_x64.zip)
 
-* MacOS arm64 位 [https://github.com/ba0gu0/AllLive/releases/download/1.0.0/alllive_mac_1.0.0_arm64.dmg](https://github.com/ba0gu0/AllLive/releases/download/1.0.0/alllive_mac_1.0.0_arm64.dmg)
+* MacOS arm64 位 [https://github.com/ba0gu0/AllLive/releases/download/1.0.0/alllive_mac_1.0.0_arm64.zip](https://github.com/ba0gu0/AllLive/releases/download/1.0.0/alllive_mac_1.0.0_arm64.zip)
 
 * Windows 64 位安装 [https://github.com/ba0gu0/AllLive/releases/download/1.0.0/alllive_win_1.0.0_x64.msi](https://github.com/ba0gu0/AllLive/releases/download/1.0.0/alllive_win_1.0.0_x64.msi)
 * Windows 64 位压缩 [https://github.com/ba0gu0/AllLive/releases/download/1.0.0/alllive_win_1.0.0_x64.zip](https://github.com/ba0gu0/AllLive/releases/download/1.0.0/alllive_win_1.0.0_x64.zip)
