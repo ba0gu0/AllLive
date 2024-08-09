@@ -15,7 +15,7 @@
 
 * Windows 64 位压缩 [https://github.com/ba0gu0/AllLive/releases/download/1.1.0/alllive_win_1.1.0_x64.zip](https://github.com/ba0gu0/AllLive/releases/download/1.1.0/alllive_win_1.1.0_x64.zip)
 
-* 虎牙、斗鱼、BiliBili 订阅文件 [https://github.com/ba0gu0/AllLive/blob/master/README.md](https://github.com/ba0gu0/AllLive/blob/master/README.md)
+* 虎牙、斗鱼、BiliBili 订阅文件 [https://github.com/ba0gu0/AllLive/blob/master/All%20Live%20Data.json](https://github.com/ba0gu0/AllLive/blob/master/All%20Live%20Data.json)
 
 
 ### 功能介绍
