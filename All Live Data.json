@@ -1,0 +1,110 @@
+[
+  {
+    "importPlatFromStep": "getPlatFromInfo",
+    "platFromId": "470931",
+    "platFromName": "虎牙",
+    "platFromSortName": "英雄联盟,王者荣耀,永劫无间手游,DNF手游,星秀,魔兽世界,户外,一起看,天天吃鸡,CS2,剑网3,穿越火线,二次元,lol云顶之弈,和平精英,新游广场,体育,交友,无畏契约,主机游戏",
+    "data": [
+      {
+        "importPlatFromStep": "getPlatFromSort",
+        "tableSqlName": "getPlatFromSort",
+        "tableName": "获取分类信息",
+        "getRequestUrl": "https://www.huya.com/g",
+        "getRequestUrlParams": "{\n    \"headers\":{\n        \"user-agent\":\"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.60 Safari/537.36 Edg/100.0.1185.29\"\n    },\n    \"method\":\"get\"\n}",
+        "getRequestUrlHandle": "\nmodule.exports = (data, headers)=>{\n  const re = new RegExp('<a class=\"g-gameCard-link\" href=\".*?\" data-gid=\"(.*?)\" target=\"_blank\">.*?<img class=\"g-gameCard-img\" src=\"(.*?)\" alt=\"(.*?)\" data-default-img=\"84x84\"', \"sg\")\n  const payload = []\n  let regexResult\n  while (( regexResult= re.exec(data))){\n    payload.push({\n      platFromSortId: regexResult[1],\n      platFromSortName: regexResult[3]\n    })\n  }\n  return payload\n}\n",
+        "getExecCode": ""
+      },
+      {
+        "importPlatFromStep": "getPlatFromLiveList",
+        "tableSqlName": "getPlatFromLiveList",
+        "tableName": "获取直播列表",
+        "getRequestUrl": "https://www.huya.com/cache.php",
+        "getRequestUrlParams": "{\n    \"headers\":{\n        \"user-agent\":\"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.60 Safari/537.36 Edg/100.0.1185.29\"\n    },\n    \"method\":\"get\",\n    \"searchParams\":{\n        \"m\":\"LiveList\",\n        \"do\":\"getLiveListByPage\",\n        \"gameId\":\"$SortId\",\n        \"page\":\"$PageNum\"\n    }\n}",
+        "getRequestUrlHandle": "\nmodule.exports = (data, headers)=>{\n\tconst payload = []\n\tdata.data.datas.forEach((live)=>{\n\t\tpayload.push({\n\t\t\tplatFromLiveName: live.introduction,\n\t\t\tplatFromLiveId: live.profileRoom,\n\t\t\tplatFromLiveNick: live.nick,\n\t\t\tplatFromLiveScreenshot: live.screenshot,\n\t\t\tplatFromLiveAvatar: live.avatar180,\n\t\t})\n\t})\n  return payload\n}\n",
+        "getExecCode": "",
+        "otherParams": "true"
+      },
+      {
+        "importPlatFromStep": "getPlatFromLiveUrl",
+        "tableSqlName": "getPlatFromLiveUrl",
+        "tableName": "获取直播地址",
+        "getRequestUrl": "https://www.huya.com/$livePlayId",
+        "getRequestUrlParams": "{\n    \"headers\":{\n        \"user-agent\":\"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.60 Safari/537.36 Edg/100.0.1185.29\"\n    },\n    \"method\":\"get\"\n}",
+        "getRequestUrlHandle": "module.exports = (data, headers) => {\n\tconst re = new RegExp('(var hyPlayerConfig = \\{.*?\\};)', \"sg\")\n\tconst regexResult = re.exec(data)[1]\n\teval(regexResult)\n\tlet liveName\n\tlet liveNick\n\tlet liveAvatar\n\tlet liveScreenshot\n\tconst liveData = []\n\tif (hyPlayerConfig) {\n\t\tliveName = hyPlayerConfig.stream.data[0].gameLiveInfo.introduction\n\t\tliveNick = hyPlayerConfig.stream.data[0].gameLiveInfo.nick\n\t\tliveAvatar = hyPlayerConfig.stream.data[0].gameLiveInfo.avatar180\n\t\tliveScreenshot = hyPlayerConfig.stream.data[0].gameLiveInfo.screenshot\n\t\tconst roomNum = hyPlayerConfig.stream.data[0].gameLiveInfo.profileRoom\n\t\tconst liveUrl = `https://www.goodiptv.club/huya/${roomNum}?stream=flv`\n\t\thyPlayerConfig.stream.vMultiStreamInfo.forEach((result) => {\n\t\t\tliveData.push({\n\t\t\t\tmultName: result.sDisplayName,\n\t\t\t\tliveUrl: liveUrl\n\t\t\t})\n\t\t})\n\t}\n\treturn {\n\t\tliveName: liveName,\n\t\tliveNick: liveNick,\n\t\tliveAvatar: liveAvatar,\n\t\tliveScreenshot: liveScreenshot,\n\t\tliveData: liveData,\n\t\tliveType: 'http-flv',\n\t\tdanMaKu: []\n\t}\n}",
+        "getExecCode": ""
+      }
+    ]
+  },
+  {
+    "importPlatFromStep": "getPlatFromInfo",
+    "platFromId": "574944",
+    "platFromName": "斗鱼",
+    "platFromSortName": "星秀,英雄联盟,王者荣耀,热门游戏,派对,心动派对,lol云顶之弈,主机游戏,无畏契约,棋牌娱乐,魔兽世界,金铲铲之战,一起看,穿越火线,网易游戏,和平精英,MMO游戏,DNF,DOTA2,主机其他游戏",
+    "data": [
+      {
+        "importPlatFromStep": "getPlatFromSort",
+        "tableSqlName": "getPlatFromSort",
+        "tableName": "获取分类信息",
+        "getRequestUrl": "",
+        "getRequestUrlParams": "",
+        "getRequestUrlHandle": "",
+        "getExecCode": "const main = async () => {\n    let got = require('got')\n\tlet payload = []\n    for (customClassId of ['1', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '17']){\n\t\tconst getOptions = {\n\t\t\theaders: {\n\t\t\t\t'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.60 Safari/537.36 Edg/100.0.1185.29',\n\t\t\t\t'referer': 'https://www.douyu.com/'\n\t\t\t},\n\t\t\t\"method\":\"get\",\n\t\t\t\"searchParams\":{\n\t\t\t\t\"customClassId\": customClassId,\n\t\t\t\t\"offset\":\"0\",\n\t\t\t\t\"limit\":\"200\"\n\t\t\t}\n\t\t}\n\t\tconst result = await got(`https://www.douyu.com/japi/weblist/apinc/getC2List`, getOptions).json()\n\t\t// console.log(result.data.list)\n\t\tresult.data.list.forEach((live)=>{\n\t\t\tlet isExists = false\n\t\t\tpayload.forEach((item)=>{\n\t\t\t\tif (item.platFromSortId === live.cid2.toString()) isExists = true\n\t\t\t})\n\t\t\tif (!isExists) {\n\t\t\t\tpayload.push({\n\t\t\t\t\tplatFromSortId: live.cid2.toString(),\n\t\t\t\t\tplatFromSortName: live.cname2,\n\t\t\t\t\thot: live.hn\n\t\t\t\t})\n\t\t\t}\n\t\t})\n    }\n\tpayload.sort((m, n, p = 'hot') => {\n        //这是比较函数\n        var a = Number(m[p]);\n        var b = Number(n[p]);\n        return b - a;\n    })\n\treturn payload\n}\nmodule.exports = main"
+      },
+      {
+        "importPlatFromStep": "getPlatFromLiveList",
+        "tableSqlName": "getPlatFromLiveList",
+        "tableName": "获取直播列表",
+        "getRequestUrl": "https://www.douyu.com/gapi/rkc/directory/mixList/2_$SortId/$PageNum",
+        "getRequestUrlParams": "{\n    \"headers\":{\n        \"user-agent\":\"Mozilla/5.0 (Linux; Android 7.1.2; Kindle Fire HDX Build/NJH47D) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/59.0.3071.92 Safari/537.36\"\n    },\n    \"method\":\"get\"\n}",
+        "getRequestUrlHandle": "module.exports = (data, headers)=>{\n    const payload = []\n    data.data.rl.forEach((live)=>{\n\t\tif (live.aggrInfo) {\n\t\t\tpayload.push({\n\t\t\t\tplatFromLiveName: live.aggrInfo.rn,\n\t\t\t\tplatFromLiveId: live.aggrInfo.rid,\n\t\t\t\tplatFromLiveNick: live.aggrInfo.nn,\n\t\t\t\tplatFromLiveScreenshot: live.aggrInfo.rs16_avif,\n\t\t\t\tplatFromLiveAvatar: live.aggrInfo.av\n\t\t\t})\n\t\t}else {\n\t\t\tpayload.push({\n\t\t\t\tplatFromLiveName: live.rn,\n\t\t\t\tplatFromLiveId: live.rid,\n\t\t\t\tplatFromLiveNick: live.nn,\n\t\t\t\tplatFromLiveScreenshot: live.rs16_avif,\n\t\t\t\tplatFromLiveAvatar: `https://apic.douyucdn.cn/upload/${live.av}_big.jpg`,\n\t\t\t})\n\t\t}\n\n    })\n  return payload\n}",
+        "getExecCode": "",
+        "otherParams": "true"
+      },
+      {
+        "importPlatFromStep": "getPlatFromLiveUrl",
+        "tableSqlName": "getPlatFromLiveUrl",
+        "tableName": "获取直播地址",
+        "getRequestUrl": "",
+        "getRequestUrlParams": "",
+        "getRequestUrlHandle": "",
+        "getExecCode": "const main3 = async (roomId) => {\n\tconst CryptoJS = require('crypto-js')\n\tlet got = require('got')\n\tlet liveName\n    let liveNick\n    let liveAvatar\n\tconst getOptions = {\n\t\theaders: {\n\t\t\t'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.60 Safari/537.36 Edg/100.0.1185.29',\n\t\t\t'referer': 'https://www.douyu.com/'\n\t\t},\n\t\tmethod: 'GET',\n\t\trejectUnauthorized: false\n\t}\n\tconst postOptions = {\n\t\theaders: {\n\t\t\t'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.60 Safari/537.36 Edg/100.0.1185.29',\n\t\t\t'referer': 'https://www.douyu.com/'\n\t\t},\n\t\tmethod: 'POST',\n\t\tform: {},\n\t\trejectUnauthorized: false\n\t}\n\tconst homeRes = await got(`https://www.douyu.com/${roomId}`, getOptions)\n\tconst reName = new RegExp(/Title-header\">(.*?)<\\/h3>/, \"sg\")\n\tconst reNice = new RegExp(/Title-anchorNameH2\">(.*?)<\\/h2>/, \"sg\")\n\tconst reAvatar = new RegExp(/DyImg-content is-normal\" src=\"(.*?)\">/, \"sg\")\n\tliveName = reName.exec(homeRes.body)[1]\n\tliveNick = reNice.exec(homeRes.body)[1]\n\tliveAvatar  = reAvatar.exec(homeRes.body)[1]\n\n\tconst re = new RegExp(/(var vdwdae325w_64we.*?function ub98484234.*?)<\\/script>/, \"sg\")\n\tconst code1 = re.exec(homeRes.body)[1]\n\t// console.log('code1',code1)\n\tconst code2 = code1.replaceAll(/eval\\(strc\\)(.*?);/ig, 'strc;')\n\t// console.log('code2',code2)\n\tconst code3 = eval(`${code2};ub98484234()`)\n\t// console.log('code3',code3)\n\tconst vre = new RegExp(/v=(\\d+)/, 'sg')\n\tconst v = vre.exec(code3)[1]\n\t// console.log('v', v)\n\tconst code4 = code3.replace('(function (', 'function sign(')\n\t// console.log('code4',code4)\n\tconst code5 = code4.replace('return rt;})', 'return rt;}')\n\t// console.log('code5',code5)\n\tconst cb = `${roomId}10000000000000000000000000001501${parseInt((new Date).getTime() / 1e3, 10)}${v}`\n\tconst code6 = code5.replace('CryptoJS.MD5(cb).toString()', `\"${CryptoJS.MD5(cb).toString()}\"`)\n\t// console.log('code6',code6)\n\tconst signParams = eval(`${code6};sign('${roomId}','10000000000000000000000000001501','${parseInt((new Date).getTime() / 1e3, 10)}');`)\n\t// console.log('signParams',signParams)\n\tconst result = []\n\ttry {\n\t\tconst liveListRes = await got(`https://www.douyu.com/lapi/live/getH5Play/${roomId}?${signParams}&cdn=&rate=0&ver=Douyu_222082905&iar=1&ive=0&hevc=0&fa=0`, postOptions).json()\n\t\tfor (live of liveListRes.data.multirates) {\n\t\t\tconst liveRes = await got(`https://www.douyu.com/lapi/live/getH5Play/${roomId}?${signParams}&cdn=&rate=${live.rate}&ver=Douyu_222082905&iar=1&ive=0&hevc=0&fa=0`, postOptions).json()\n\t\t\tresult.push({\n\t\t\t\tmultName: `${live.name}`,\n\t\t\t\tliveUrl: `${liveRes.data.rtmp_url}/${liveRes.data.rtmp_live}`,\n\t\t\t})\n\t\t}\n\n\t}catch (e){\n\t\t// console.log(e)\n\t}\n\t// console.log('result',result, liveName, liveNick, liveAvatar)\n\treturn {\n\t\tliveName: liveName,\n        liveNick: liveNick,\n        liveAvatar: liveAvatar,\n\t\tliveData: result,\n\t\tliveType: 'http-flv',\n\t\tdanMaKu: []\n\t}\n}\nmodule.exports = main3"
+      }
+    ]
+  },
+  {
+    "importPlatFromStep": "getPlatFromInfo",
+    "platFromId": "215494",
+    "platFromName": "哔哩哔哩",
+    "platFromSortName": "英雄联盟,无畏契约,CS:GO,APEX英雄,永劫无间,穿越火线,命运方舟,DOTA2,吃鸡行动,七日世界,守望先锋,魔兽世界,炉石传说,解限机,逃离塔科夫,传奇,DNF,卡拉彼丘,塔瑞斯世界,生死狙击2",
+    "data": [
+      {
+        "importPlatFromStep": "getPlatFromSort",
+        "tableSqlName": "getPlatFromSort",
+        "tableName": "获取分类信息",
+        "getRequestUrl": "https://api.live.bilibili.com/xlive/web-interface/v1/index/getWebAreaList?source_id=2",
+        "getRequestUrlParams": "{\n    \"headers\":{\n        \"user-agent\":\"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.60 Safari/537.36 Edg/100.0.1185.29\"\n    },\n    \"method\":\"get\"\n}",
+        "getRequestUrlHandle": "module.exports = (data, headers)=>{\n    const payload = []\n    data.data.data.forEach((data)=>{\n        data.list.forEach((list)=>{\n            payload.push({\n                platFromSortId: `${list.parent_id}-${list.id}`,\n                platFromSortName: list.name\n            })\n        })\n    })\n    return payload\n}",
+        "getExecCode": ""
+      },
+      {
+        "importPlatFromStep": "getPlatFromLiveList",
+        "tableSqlName": "getPlatFromLiveList",
+        "tableName": "获取直播列表",
+        "getRequestUrl": "",
+        "getRequestUrlParams": "",
+        "getRequestUrlHandle": "",
+        "getExecCode": "const main2 = async (sortId, pageNum)=>{\n\tconst got = require('got')\n\tconst payload = []\n    const parent_id = sortId.split('-')[0]\n    const area_id = sortId.split('-')[1]\n    const getOptions = {\n        headers: {\n            'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.60 Safari/537.36 Edg/100.0.1185.29',\n            'referer': 'https://live.bilibili.com/'\n        },\n        \"method\":\"get\",\n        \"searchParams\":{\n            platform: 'web',\n            parent_area_id: parent_id,\n            area_id: area_id,\n            page: pageNum\n        }\n    }\n    const liveListRes = await got('https://api.live.bilibili.com/xlive/web-interface/v1/second/getList', getOptions).json()\n\tliveListRes.data.list.forEach((live)=>{\n\t\tpayload.push({\n\t\t\tplatFromLiveName: live.title,\n\t\t\tplatFromLiveId: live.roomid,\n\t\t\tplatFromLiveNick: live.uname,\n\t\t\tplatFromLiveScreenshot: live.system_cover,\n\t\t\tplatFromLiveAvatar: live.face,\n\t\t})\n\t})\n  return payload\n}\n\nmodule.exports = main2",
+        "otherParams": "true"
+      },
+      {
+        "importPlatFromStep": "getPlatFromLiveUrl",
+        "tableSqlName": "getPlatFromLiveUrl",
+        "tableName": "获取直播地址",
+        "getRequestUrl": "",
+        "getRequestUrlParams": "",
+        "getRequestUrlHandle": "",
+        "getExecCode": "const main3 = async (roomId) => {\n    const got = require('got')\n    let liveName\n    let liveNick\n    let liveAvatar\n    let liveScreenshot\n    const getOptionsInfo = {\n        \"headers\": {\n            \"user-agent\": \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.60 Safari/537.36 Edg/100.0.1185.29\",\n            \"accept\": \"text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9\",\n            \"accept-language\": \"zh-CN,zh;q=0.9,en;q=0.8\",\n\n        },\n        \"method\": \"get\"\n    }\n    const infoResult = await got(`https://live.bilibili.com/${roomId}`, getOptionsInfo)\n    const reName = new RegExp(/\"title\":\"(.*?)\",\"cover\":\"/, 'sg')\n    const reNickAvatar = new RegExp(/\\{\"base_info\":\\{\"uname\":\"(.*?)\",\"face\":\"(.*?)\"/, 'sg')\n    const reScreenshot = new RegExp(/\"cover\":\"(.*?)\"/, 'sg')\n    try {\n        liveName = reName.exec(infoResult.body)[1];\n        const NickAvatar = reNickAvatar.exec(infoResult.body);\n        // console.log(liveName, NickAvatar[1], JSON.parse(`\"${NickAvatar[2]}\"`))\n        liveNick = NickAvatar[1];\n        liveAvatar = JSON.parse(`\"${NickAvatar[2]}\"`);\n        liveScreenshot = reScreenshot.exec(infoResult.body)[1];\n        liveScreenshot = JSON.parse(`\"${liveScreenshot}\"`);\n    } catch (error) {\n        // Handle the error\n        console.error(\"An error occurred:\", error);\n    }\n    const liveData = []\n    liveData.push({\n        multName: '原画',\n        liveUrl: `https://www.goodiptv.club/bilibili/${roomId}`\n    })\n    return {\n        liveName: liveName,\n        liveNick: liveNick,\n        liveAvatar: liveAvatar,\n        liveData: liveData,\n        liveType: 'hls',\n        danMaKu: []\n    }\n}\nmodule.exports = main3"
+      }
+    ]
+  }
+]
